@@ -21,4 +21,4 @@ requires:
   perl: 5.006_001
 resources:
   repository: https://github.com/sourceperl/MBclient.git
-version: '1.51'
+version: '1.52'
