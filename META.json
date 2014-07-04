@@ -4,9 +4,9 @@
       "Lefebvre Loic <lle@cpan.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.86, CPAN::Meta::Converter version 2.120351",
+   "generated_by" : "ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.141520",
    "license" : [
-      "unknown"
+      "mit"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
@@ -31,9 +31,18 @@
          }
       },
       "runtime" : {
-         "requires" : {}
+         "requires" : {
+            "perl" : "5.006_001"
+         }
       }
    },
    "release_status" : "stable",
-   "version" : "1.50"
+   "resources" : {
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/sourceperl/MBclient.git",
+         "web" : "https://github.com/sourceperl/MBclient"
+      }
+   },
+   "version" : "1.51"
 }
