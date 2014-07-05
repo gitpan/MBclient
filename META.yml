@@ -16,8 +16,10 @@ name: MBclient
 provides:
   MBclient:
     file: lib/MBclient.pm
-    version: '1.53'
+    version: '1.54'
+requires:
+  perl: 5.006_001
 resources:
   license: http://www.opensource.org/licenses/mit-license.php
   repository: https://github.com/sourceperl/MBclient
-version: '1.53'
+version: '1.54'

@@ -23,12 +23,17 @@
          "requires" : {
             "Module::Build" : "0"
          }
+      },
+      "runtime" : {
+         "requires" : {
+            "perl" : "5.006_001"
+         }
       }
    },
    "provides" : {
       "MBclient" : {
          "file" : "lib/MBclient.pm",
-         "version" : "1.53"
+         "version" : "1.54"
       }
    },
    "release_status" : "stable",
@@ -40,5 +45,5 @@
          "url" : "https://github.com/sourceperl/MBclient"
       }
    },
-   "version" : "1.53"
+   "version" : "1.54"
 }
