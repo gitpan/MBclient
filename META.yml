@@ -1,24 +1,23 @@
 ---
 abstract: 'Add modbus TCP or RTU functions for your program.'
 author:
-  - 'Lefebvre Loic <lle@cpan.org>'
+  - 'Loic Lefebvre <lle@cpan.org>'
 build_requires:
-  ExtUtils::MakeMaker: '0'
+  Test::More: '0'
 configure_requires:
-  ExtUtils::MakeMaker: '0'
+  Module::Build: '0'
 dynamic_config: 1
-generated_by: 'ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.141520'
+generated_by: 'Module::Build version 0.4203, CPAN::Meta::Converter version 2.141520'
 license: mit
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: '1.4'
 name: MBclient
-no_index:
-  directory:
-    - t
-    - inc
-requires:
-  perl: 5.006_001
+provides:
+  MBclient:
+    file: lib/MBclient.pm
+    version: '1.53'
 resources:
-  repository: https://github.com/sourceperl/MBclient.git
-version: '1.52'
+  license: http://www.opensource.org/licenses/mit-license.php
+  repository: https://github.com/sourceperl/MBclient
+version: '1.53'
