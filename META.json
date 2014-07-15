@@ -33,7 +33,7 @@
    "provides" : {
       "MBclient" : {
          "file" : "lib/MBclient.pm",
-         "version" : "1.54"
+         "version" : "1.55"
       }
    },
    "release_status" : "stable",
@@ -45,5 +45,5 @@
          "url" : "https://github.com/sourceperl/MBclient"
       }
    },
-   "version" : "1.54"
+   "version" : "1.55"
 }

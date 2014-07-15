@@ -1,7 +1,7 @@
 # Perl module: Client ModBus / TCP class 1
-#     Version: 1.54
+#     Version: 1.55
 #     Website: https://github.com/sourceperl/MBclient/
-#        Date: 2014-07-04
+#        Date: 2014-07-15
 #     License: MIT (http://http://opensource.org/licenses/mit-license.php)
 # Description: Client ModBus / TCP command line
 #              Support functions 3 and 16 (class 0)
@@ -32,7 +32,7 @@ use Exporter;
 use Socket;
 use bytes;
 
-our $VERSION = '1.54';
+our $VERSION = '1.55';
 
 ##
 ## Constant
@@ -758,6 +758,12 @@ them. Assume that functions are I<public>
 unless otherwise documented.
 
 =over
+
+=item new()
+
+new() create an MBclient object.
+
+Example: C<my $m = MBclient-E<gt>new();>
 
 =item open()
 
