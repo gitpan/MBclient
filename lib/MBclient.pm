@@ -1,7 +1,7 @@
 # Perl module: Client ModBus / TCP class 1
-#     Version: 1.56
+#     Version: 1.57
 #     Website: https://github.com/sourceperl/MBclient/
-#        Date: 2014-08-05
+#        Date: 2014-11-27
 #     License: MIT (http://http://opensource.org/licenses/mit-license.php)
 # Description: Client ModBus / TCP command line
 #              Support functions 3 and 16 (class 0)
@@ -32,7 +32,7 @@ use Exporter;
 use Socket;
 use bytes;
 
-our $VERSION = '1.56';
+our $VERSION = '1.57';
 
 ##
 ## Constant
@@ -41,7 +41,7 @@ our $VERSION = '1.56';
 ## ModBus/TCP
 use constant MODBUS_PORT                                 => 502;
 ## ModBus RTU
-use constant FRAME_RTU_MAXSIZE                           => 512;
+use constant FRAME_RTU_MAXSIZE                           => 256;
 ## Modbus mode
 use constant MODBUS_TCP                                  => 1;
 use constant MODBUS_RTU                                  => 2;
@@ -74,7 +74,7 @@ use constant MB_RECV_ERR                                 => 4;
 use constant MB_TIMEOUT_ERR                              => 5;
 use constant MB_FRAME_ERR                                => 6;
 use constant MB_EXCEPT_ERR                               => 7;
-
+use constant MB_CRC_ERR                                  => 8;
 
 ##
 ## Constructor.
@@ -529,6 +529,22 @@ sub _recv_mbus {
     $rx_frame = $rx_buffer;
     # dump frame
     $self->_pretty_dump('Rx', $rx_frame) if ($self->{debug});
+    # RTU frame min size is 5: check this here
+    if (bytes::length($rx_frame) < 5) {
+      $self->{LAST_ERROR} = MB_RECV_ERR;
+      print 'short frame error'."\n" if ($self->{debug});
+      $self->close;
+      return undef;
+    }
+    # check CRC
+    if (! $self->_crc_is_ok($rx_frame)) {
+      $self->{LAST_ERROR} = MB_CRC_ERR;
+      print 'CRC error'."\n" if ($self->{debug});
+      $self->close;
+      return undef;
+    }
+    # remove CRC
+    $rx_frame = bytes::substr($rx_frame, 0, -2);
     # body decode
     ($rx_unit_id, $rx_bd_fc, $f_body) = unpack "CCa*", $rx_frame;
     # check
@@ -653,8 +669,7 @@ sub _add_crc {
 sub _crc_is_ok {
   my $self  = shift;
   my $frame = shift;
-  my $crc = unpack('v', bytes::substr($frame, -2));
-  return ($crc == $self->_crc($frame));
+  return ($self->_crc($frame) == 0);
 }
 
 # Print modbus/TCP frame ("[header]body") or modbus RTU ("body[CRC]").
@@ -884,7 +899,7 @@ Return a ref to a bits array or undef if error.
 
 Example read 1 bit at hex address 45:
 
-  my $bits = $m->read_discrete_inputs(1, 0x45);
+  my $bits = $m->read_discrete_inputs(0x45, 1);
   if ($bits) {
     print $$bits[0]."\n";
   } else {
@@ -901,7 +916,7 @@ Return a ref to a registers array or undef if error.
 
 Example read 2 registers at hex address 66:
 
-  my $regs = $m->read_holding_registers(2, 0x66);
+  my $regs = $m->read_holding_registers(0x66, 2);
   foreach my $reg (@$regs) {
     print $reg."\n";
   }
@@ -916,7 +931,7 @@ Return a ref to a registers array or undef if error.
 
 Example read 4 registers at hex address 100:
 
-  my $regs = $m->read_input_registers(4, 0x100);
+  my $regs = $m->read_input_registers(0x100, 4);
   foreach my $reg (@$regs) {
     print $reg."\n";
   }
